@@ -1,7 +1,7 @@
 variable "enable_blue_env" {
   description = "Enable blue environment"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "blue_instance_count" {
@@ -13,7 +13,7 @@ variable "blue_instance_count" {
 variable "enable_green_env" {
   description = "Enable green environment"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "green_instance_count" {
