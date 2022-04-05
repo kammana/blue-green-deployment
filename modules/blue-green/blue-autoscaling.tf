@@ -1,18 +1,16 @@
 resource "aws_launch_configuration" "blue_lc" {
-  name          = "blue-lc"
+  name          = "blue_lc_${terraform.workspace}"
   image_id      = var.ami_id
-  instance_type = "t2.micro"
-  user_data = templatefile("./init-script.sh", {
+  instance_type = var.instance_type
+  user_data = templatefile("${path.module}/init-script.sh", {
     file_content = "blue version 1.0"
   })
   security_groups = ["${aws_security_group.web.id}"]
-
-  # iam_instance_profile = "${aws_iam_instance_profile.test_profile.name}"
 }
 
 # Define Auto Scaling Group
 resource "aws_autoscaling_group" "blue_asg" {
-  name     = "blue_asg"
+  name     = "blue_asg_${terraform.workspace}"
   max_size = 2
   min_size = 1
 

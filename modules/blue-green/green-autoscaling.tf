@@ -1,8 +1,8 @@
 resource "aws_launch_configuration" "green_lc" {
-  name          = "green-lc"
+  name          = "green_lc_${terraform.workspace}"
   image_id      = var.ami_id
-  instance_type = "t2.micro"
-  user_data = templatefile("./init-script.sh", {
+  instance_type = var.instance_type
+  user_data = templatefile("${path.module}/init-script.sh", {
     file_content = "green version 1.0"
   })
   security_groups = ["${aws_security_group.web.id}"]
@@ -10,7 +10,7 @@ resource "aws_launch_configuration" "green_lc" {
 
 # Define Auto Scaling Group
 resource "aws_autoscaling_group" "green_asg" {
-  name     = "green_asg"
+  name     = "green_asg_${terraform.workspace}"
   max_size = 2
   min_size = 1
 
