@@ -26,3 +26,13 @@ variable "traffic_distribution" {
   description = "Levels of traffic distribution"
   type        = string
 }
+variable "vpc_id" {
+  default = "vpc-0ece1c90642eb015a"
+}
+variable "private_subnet_ids" {
+  default = ["subnet-08afcecde367a804", "subnet-0b12bd492f9bea1e0", "subnet-0a3104ba4ff98c0f1"]
+}
+
+variable "ami_id" {
+  default = "ami-0c02fb55956c7d316"
+}

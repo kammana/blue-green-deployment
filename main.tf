@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_security_group" "web" {
   name        = "Blue-green-sg"
   description = "Security group for web-servers with HTTP ports open within VPC"
-  vpc_id      = local.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 80
@@ -23,20 +23,14 @@ resource "aws_security_group" "web" {
   }
 }
 
-# aws_lb: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
 resource "aws_lb" "app" {
   name               = "app-lb"
   internal           = false
   load_balancer_type = "application"
-  subnets = [
-    local.public_a_subnet_id,
-    local.public_b_subnet_id
-  ]
-  security_groups = [aws_security_group.web.id]
+  subnets            = var.private_subnet_ids
+  security_groups    = [aws_security_group.web.id]
 }
 
-# Load Balancer Listener
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 resource "aws_lb_listener" "app" {
   load_balancer_arn = aws_lb.app.arn
   port              = "80"
